@@ -1,0 +1,1 @@
+//Component to display the pseudocode of an algorithm
