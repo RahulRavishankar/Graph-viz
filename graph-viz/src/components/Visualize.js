@@ -1,1 +1,0 @@
-//Component that holds Start/Clear buttons
