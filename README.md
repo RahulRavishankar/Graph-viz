@@ -1,2 +1,2 @@
-# Graph-viz
+# Graph-Viz
 A Graph pathfinding Visualizer
