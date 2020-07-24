@@ -1,6 +1,7 @@
 import React from 'react';
 import NavBar from './components/NavBar'
 import Grid from './components/Grid'
+import Label from './components/Label'
 
 class Main extends React.Component {
     constructor() {
@@ -139,6 +140,7 @@ class Main extends React.Component {
             cols={this.cols}
             selectBox={this.selectBox} 
 					/>
+					<Label />
         </div>
       )
     }
