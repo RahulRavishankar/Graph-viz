@@ -34,7 +34,7 @@ class Grid extends React.Component {
             key={boxId}
             boxId={boxId}
             row={i}
-            col={j} //should add isvisited prop
+            col={j} //should add isvisited prop,previous node prop
             selectBox={this.props.selectBox} /> 
 
         )
