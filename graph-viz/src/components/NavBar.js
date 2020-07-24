@@ -17,8 +17,8 @@ class NavBar extends Component {
 					</Nav>
 				</Navbar.Collapse>
 		
-				<Button variant="outline-warning" style={btnStyle} >Clear</Button>{' '}
-				<Button variant="outline-success" style={btnStyle} >Start</Button>{' '}
+				<Button variant="outline-warning" style={btnStyle} onClick={this.props.clear} >Clear</Button>{' '}
+				<Button variant="outline-success" style={btnStyle} onClick={this.props.startButton} >Start</Button>{' '}
 			</Navbar>
 		)
 	}
