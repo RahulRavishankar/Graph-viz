@@ -7,14 +7,22 @@
   margin-bottom: -1px;
   }
 
-.off {
+.empty {
   background-color: #ffffff;
 }
 
-.on {
+.wall {
   background-color:#000000;
 }
+
+.start {
+  background-color: red;
+}
   
+.end {
+  background-color: green;
+}
+
 .box:hover { 
   background: #000000;
 }

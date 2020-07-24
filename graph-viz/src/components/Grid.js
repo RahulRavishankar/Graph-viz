@@ -26,7 +26,8 @@ class Grid extends React.Component {
     for (var i = 0; i < this.props.rows; i++) {
       for (var j = 0; j < this.props.cols; j++) {
         let boxId = i + "_" + j;
-        boxClass = this.props.gridFull[i][j] ? "box on" : "box off";
+        // boxClass = this.props.grid[i][j] ? "box on" : "box off";
+        boxClass = Class(this.props.grid,i,j);
         rowsArr.push(
           <Box
             boxClass={boxClass}
@@ -46,6 +47,21 @@ class Grid extends React.Component {
       </div>
     )
   }
+}
+
+const Class = (grid,row,col) => {
+    if(grid[row][col]===0) {
+      return "box empty";
+    }
+    else if(grid[row][col]===1) {
+      return "box wall";
+    }
+    else if(grid[row][col]===2) {
+      return "box start";
+    }
+    else {
+      return "box end";
+    }
 }
 
 export default Grid;

@@ -8,22 +8,64 @@ class Main extends React.Component {
       this.speed = 100;
       this.rows = 30;
       this.cols = 50;
+      this.start = {
+				X:10,
+				Y:22
+			}
+			this.end = {
+				X:40,
+				Y:8
+			}
+			this.createGrid = (rows, cols) => {
+				var grid=new Array(rows);
+				for(let i=0;i<rows;++i) {
+					grid[i] = new Array(cols);
+				}
+	
+				for(let i=0;i<rows;++i) {
+					for(let j=0;j<cols;++j) {
+						if(i===this.start.Y && j===this.start.X) {	//start cell
+							grid[i][j]=2;
+						}
+						else if(i===this.end.Y && j===this.end.X) {	//end cell
+							grid[i][j]=3;		
+						}
+						else {																			//empty cell
+							grid[i][j]=0;
+						}
+					}
+				}
+				return grid;
+			}
       this.state = {
-        gridFull: Array(this.rows).fill().map(() => Array(this.cols).fill(false))
+				// gridFull: Array(this.rows).fill().map(() => Array(this.cols).fill(false))
+				grid: this.createGrid(this.rows,this.cols)
       }
   
-    }
+		}
+		
     selectBox = (row, col) => {
-      let gridCopy = arrayClone(this.state.gridFull);
-      gridCopy[row][col] = !gridCopy[row][col];
+			let gridCopy = arrayClone(this.state.grid);
+			// gridCopy[row][col] = !gridCopy[row][col];
+			if(gridCopy[row][col]===0) {
+				gridCopy[row][col]=1;
+			}
+			else if(gridCopy[row][col]===1) {
+				gridCopy[row][col]=0;
+			}
+			else {
+				console.log("Start/End cell selected");
+				//TODO
+			}
+
       this.setState({
-        gridFull: gridCopy
-      })
+        grid: gridCopy
+			})
     }
     clear = () => {
-      var grid = Array(this.rows).fill().map(() => Array(this.cols).fill(false)) //creates new empty grid
+			//var grid = Array(this.rows).fill().map(() => Array(this.cols).fill(false)) //creates new empty grid 
       this.setState({
-        gridFull: grid
+        grid: this.createGrid(this.rows,this.cols)
       })
     }
     slow = () => {
@@ -36,8 +78,8 @@ class Main extends React.Component {
       this.startButton();
     }
   
-    gridSize = (size) => {
-      switch (size) {
+    gridSize = (option) => {
+      switch (option) {
         case "1":
           this.cols = 20;
           this.rows = 10;
@@ -59,20 +101,20 @@ class Main extends React.Component {
     }
   
     startButton = () => {
+			console.log("Start clicked")
       clearInterval(this.intervalId) //clears timer with setInterval method
       this.intervalId = setInterval(this.play, this.speed)
     }
   
     start = () => {
-      let g = this.state.gridFull;
-      let g2 = arrayClone(this.state.gridFull);
+      let g = this.state.grid;
+      let g2 = arrayClone(this.state.grid);
       //logic for algo should be run here
   
   
   
-      this.setState(
-        {
-          gridFull: g2
+      this.setState({
+          grid: g2
         }
       );
     }
@@ -92,10 +134,11 @@ class Main extends React.Component {
           />
   
           <Grid
-            gridFull={this.state.gridFull}
+            grid={this.state.grid}
             rows={this.rows}
             cols={this.cols}
-            selectBox={this.selectBox} />
+            selectBox={this.selectBox} 
+					/>
         </div>
       )
     }
