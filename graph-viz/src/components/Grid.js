@@ -34,8 +34,8 @@ class Grid extends React.Component {
             key={boxId}
             boxId={boxId}
             row={i}
-            col={j}
-            selectBox={this.props.selectBox} />
+            col={j} //should add isvisited prop
+            selectBox={this.props.selectBox} /> 
 
         )
       }
