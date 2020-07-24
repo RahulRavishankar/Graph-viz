@@ -13,6 +13,7 @@ class NavBar extends Component {
 							<NavDropdown.Item >BFS</NavDropdown.Item>
 							<NavDropdown.Item >DFS</NavDropdown.Item>
 							<NavDropdown.Item >A*</NavDropdown.Item>
+			                                <NavDropdown.Item >Djikstra</NavDropdown.Item>
 						</NavDropdown>
 					</Nav>
 				</Navbar.Collapse>
