@@ -16,7 +16,10 @@ class Main extends React.Component {
 			this.end = {
 				X:40,
 				Y:8
-			}
+      }
+      this.movingStart = false;
+      this.movingEnd = false;
+      this.creatingWalls = false;
 			this.createGrid = (rows, cols) => {
 				var grid=new Array(rows);
 				for(let i=0;i<rows;++i) {
@@ -39,15 +42,68 @@ class Main extends React.Component {
 				return grid;
 			}
       this.state = {
-				// gridFull: Array(this.rows).fill().map(() => Array(this.cols).fill(false))
 				grid: this.createGrid(this.rows,this.cols)
       }
   
 		}
-		
-    selectBox = (row, col) => {
+		myOnMouseDown = (row, col) => {
+      if(row===this.start.Y && col===this.start.X) {
+        this.movingStart=true;
+      }
+      else if(row===this.end.Y && col===this.end.X) {
+        this.movingEnd=true;
+      }
+      else {
+        this.creatingWalls=true;
+      }
+    }
+    myOnMouseEnter = (row, col) => {
+      if(!this.movingStart && !this.movingEnd && !this.creatingWalls) {
+        return;
+      }
+      else if(this.movingStart) {
+        let gridCopy=arrayClone(this.state.grid);
+        gridCopy[this.start.Y][this.start.X]=0;  //empty the start cell
+        gridCopy[row][col]=2;                    //set the curr cell as start cell
+        this.start.Y=row;
+        this.start.X=col;
+        this.setState({
+          grid: gridCopy
+        })
+      }
+      else if(this.movingEnd) {
+        let gridCopy=arrayClone(this.state.grid);
+        gridCopy[this.end.Y][this.end.X]=0;  //empty the end cell
+        gridCopy[row][col]=3;
+        this.end.Y=row;
+        this.end.X=col;                // set the curr cell as end cell
+        this.setState({
+          grid: gridCopy
+        })
+      }
+      else if(this.creatingWalls) {
+        let gridCopy = arrayClone(this.state.grid);
+        if(gridCopy[row][col]===0) {
+          gridCopy[row][col]=1;
+        }
+        else if(gridCopy[row][col]===1) {
+          gridCopy[row][col]=0;
+        }
+        else {
+          console.log("Cannot turn start/end cell into a wall");
+        }
+        this.setState({
+          grid: gridCopy
+        })
+      }
+    }
+    myOnMouseUp = () => {
+      this.movingStart = false;
+      this.movingEnd = false;
+      this.creatingWalls = false;
+    }
+    myOnClick = (row, col) => {
 			let gridCopy = arrayClone(this.state.grid);
-			// gridCopy[row][col] = !gridCopy[row][col];
 			if(gridCopy[row][col]===0) {
 				gridCopy[row][col]=1;
 			}
@@ -55,8 +111,7 @@ class Main extends React.Component {
 				gridCopy[row][col]=0;
 			}
 			else {
-				console.log("Start/End cell selected");
-				//TODO
+				console.log("Clicked on Start/End cell");
 			}
 
       this.setState({
@@ -64,7 +119,6 @@ class Main extends React.Component {
 			})
     }
     clear = () => {
-			//var grid = Array(this.rows).fill().map(() => Array(this.cols).fill(false)) //creates new empty grid 
       this.setState({
         grid: this.createGrid(this.rows,this.cols)
       })
@@ -126,9 +180,6 @@ class Main extends React.Component {
           <NavBar
             startButton={this.startButton}
             clear={this.clear}
-            placesource={this.placesource}
-            placedestination={this.placedestination}
-            placewalls={this.placewalls}
             slow={this.slow}
             fast={this.fast}
             gridSize={this.gridSize}
@@ -138,7 +189,10 @@ class Main extends React.Component {
             grid={this.state.grid}
             rows={this.rows}
             cols={this.cols}
-            selectBox={this.selectBox} 
+            myOnClick={this.myOnClick}
+            myOnMouseDown={this.myOnMouseDown} 
+            myOnMouseEnter={this.myOnMouseEnter}
+            myOnMouseUp={this.myOnMouseUp}
 					/>
 					<Label />
         </div>

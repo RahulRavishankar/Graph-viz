@@ -23,10 +23,6 @@
   background-color: green;
 }
 
-.box:hover { 
-  background: #000000;
-}
-
 .center {
   margin: auto;
   display: table;

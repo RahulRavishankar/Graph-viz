@@ -3,15 +3,27 @@ import React from 'react';
 import '../css/grid.css';
 
 class Box extends React.Component {
-  selectBox = () => {
-    this.props.selectBox(this.props.row, this.props.col);
-
+  myOnClick = () => {
+    this.props.myOnClick(this.props.row, this.props.col);
+  }
+  myOnMouseDown = () => {
+    this.props.myOnMouseDown(this.props.row, this.props.col);
+  }
+  myOnMouseEnter = () => {
+    this.props.myOnMouseEnter(this.props.row, this.props.col);
+  }
+  myOnMouseUp = () => {
+    this.props.myOnMouseUp();
   }
   render() {
     return (
       <div className={this.props.boxClass}
         id={this.props.id}
-        onClick={this.selectBox}>
+        onClick={this.myOnClick}
+        onMouseDown={this.myOnMouseDown}
+        onMouseEnter={this.myOnMouseEnter}
+        onMouseUp={this.myOnMouseUp}
+      >
       </div>
     )
   }
@@ -35,8 +47,11 @@ class Grid extends React.Component {
             boxId={boxId}
             row={i}
             col={j} //should add isvisited prop,previous node prop
-            selectBox={this.props.selectBox} /> 
-
+            myOnClick={this.props.myOnClick} 
+            myOnMouseDown={this.props.myOnMouseDown}
+            myOnMouseEnter={this.props.myOnMouseEnter}
+            myOnMouseUp={this.props.myOnMouseUp}
+            /> 
         )
       }
     }
