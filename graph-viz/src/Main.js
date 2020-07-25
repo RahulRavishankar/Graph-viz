@@ -20,6 +20,9 @@ class Main extends React.Component {
       this.movingStart = false;
       this.movingEnd = false;
       this.creatingWalls = false;
+      this.runningAlgorithm = false;
+      this.AlgorithmName = "DFS";
+      this.pathLength = -1;           //no path
 			this.createGrid = (rows, cols) => {
 				var grid=new Array(rows);
 				for(let i=0;i<rows;++i) {
@@ -125,12 +128,9 @@ class Main extends React.Component {
     }
     slow = () => {
       this.speed = 1000;
-      this.startButton();
-  
     }
     fast = () => {
       this.speed = 100;
-      this.startButton();
     }
   
     gridSize = (option) => {
@@ -154,24 +154,35 @@ class Main extends React.Component {
     componentDidMount() {
       this.clear();
     }
-  
+    
+    setAlgorithm = (algorithmName) => {
+      this.AlgorithmName = algorithmName;
+      console.log(this.AlgorithmName);
+    }
     startButton = () => {
-			console.log("Start clicked")
+      console.log("Start clicked")
       clearInterval(this.intervalId) //clears timer with setInterval method
       this.intervalId = setInterval(this.play, this.speed)
-    }
-  
-    start = () => {
-      let g = this.state.grid;
-      let g2 = arrayClone(this.state.grid);
-      //logic for algo should be run here
-  
-  
-  
-      this.setState({
-          grid: g2
-        }
-      );
+
+      if(this.AlgorithmName==="BFS") {
+        console.log("Running BFS");
+        this.grid=this.clear();
+      }
+      else if(this.AlgorithmName==="DFS") {
+        console.log("Running DFS");
+        this.grid=this.clear();
+      }
+      else if(this.AlgorithmName==="A*") {
+        console.log("Running A*");
+        this.grid=this.clear();
+      }
+      else if(this.AlgorithmName==="Djikstra's") {
+        console.log("Running Djikstra's");
+        this.grid=this.clear();
+      }
+      else {
+        console.log("Invalid Algorithm selected.")
+      }
     }
   
     render() {
@@ -183,6 +194,7 @@ class Main extends React.Component {
             slow={this.slow}
             fast={this.fast}
             gridSize={this.gridSize}
+            setAlgorithm={this.setAlgorithm}
           />
   
           <Grid

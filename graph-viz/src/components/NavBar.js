@@ -10,10 +10,10 @@ class NavBar extends Component {
 				<Navbar.Collapse id="responsive-navbar-nav">
 					<Nav className="mr-auto">
 						<NavDropdown title="Algorithm" id="collasible-nav-dropdown">
-							<NavDropdown.Item >BFS</NavDropdown.Item>
-							<NavDropdown.Item >DFS</NavDropdown.Item>
-							<NavDropdown.Item >A*</NavDropdown.Item>
-			                                <NavDropdown.Item >Djikstra</NavDropdown.Item>
+							<NavDropdown.Item onClick={() => {this.props.setAlgorithm("BFS")}} >BFS</NavDropdown.Item>
+							<NavDropdown.Item onClick={() => {this.props.setAlgorithm("DFS")}} >DFS</NavDropdown.Item>
+							<NavDropdown.Item onClick={() => {this.props.setAlgorithm("A*")}} >A*</NavDropdown.Item>
+			                <NavDropdown.Item onClick={() => {this.props.setAlgorithm("Djikstra's")}} >Djikstra's</NavDropdown.Item>
 						</NavDropdown>
 					</Nav>
 				</Navbar.Collapse>
