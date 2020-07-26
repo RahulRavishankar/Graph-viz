@@ -74,8 +74,14 @@ const Class = (grid,row,col) => {
     else if(grid[row][col]===2) {
       return "box start";
     }
-    else {
+    else if(grid[row][col]===3) {
       return "box end";
+    }
+    else if(grid[row][col]===4) {
+      return "box queue";
+    }
+    else if(grid[row][col]===5) {
+      return "box visited";
     }
 }
 

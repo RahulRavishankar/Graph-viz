@@ -126,6 +126,19 @@ class Main extends React.Component {
         grid: this.createGrid(this.rows,this.cols)
       })
     }
+    clearVisited = () => {
+      let gridCopy=arrayClone(this.state.grid);
+      for(let row=0;row<this.rows;++row){
+        for(let col=0;col<this.cols;++col) {
+          if(this.state.grid[row][col]===4 || this.state.grid[row][col]===5) {
+            gridCopy[row][col]=0;
+          }
+        }
+      }
+      this.setState({
+        grid:gridCopy
+      })
+    }
     slow = () => {
       this.speed = 1000;
     }
@@ -157,7 +170,7 @@ class Main extends React.Component {
     
     setAlgorithm = (algorithmName) => {
       this.AlgorithmName = algorithmName;
-      console.log(this.AlgorithmName);
+      console.log("Algorithm set to "+this.AlgorithmName);
     }
     startButton = () => {
       console.log("Start clicked")
@@ -166,25 +179,69 @@ class Main extends React.Component {
 
       if(this.AlgorithmName==="BFS") {
         console.log("Running BFS");
-        this.grid=this.clear();
+        this.runningAlgorithm=true;
+        //this.BFS();
       }
       else if(this.AlgorithmName==="DFS") {
         console.log("Running DFS");
-        this.grid=this.clear();
       }
       else if(this.AlgorithmName==="A*") {
         console.log("Running A*");
-        this.grid=this.clear();
       }
       else if(this.AlgorithmName==="Djikstra's") {
         console.log("Running Djikstra's");
-        this.grid=this.clear();
       }
       else {
         console.log("Invalid Algorithm selected.")
       }
     }
-  
+    
+    // BFS() {
+    //   var q=[];
+    //   this.clearVisited();
+    
+    //   q.push([this.start.Y,this.start.X]);
+    //   var curr,col,row;  
+    //   let count=0;
+    //   while(q.length>0 && count<15)
+    //   {
+    //     let gridCopy=arrayClone(this.state.grid);
+    //     curr = q.shift();
+    //     row=curr[0]; col=curr[1];
+    //     if(row===this.end.Y && col===this.end.X) {
+    //       console.log("Path will be displayed soon!");
+    //       //break;
+    //     }
+    //     if(col-1>=0 && (this.state.grid[row][col-1]===0 || this.state.grid[row][col-1]===3)) {    //if node is not visited or is end cell
+    //       q.push([row,col-1]);
+    //       gridCopy[row][col-1]=4;     //mark the node as added to the queue
+    //     }
+    //     if(row-1>=0 && (this.state.grid[row-1][col]===0 || this.state.grid[row-1][col]===3)) {
+    //       q.push([row-1,col]);
+    //       gridCopy[row-1][col]=4;
+    //     }
+    //     if(col+1<this.cols && (this.state.grid[row][col+1]===0 || this.state.grid[row][col+1]===3)) {
+    //       q.push([row,col+1]);
+    //       gridCopy[row][col+1]=4;
+    //     }
+    //     if(row+1<this.rows && (this.state.grid[row+1][col]===0 || this.state.grid[row+1][col]===3)) {
+    //       q.push([row+1,col]);  
+    //       gridCopy[row+1][col]=4;
+    //     }
+    //     if(row!==this.start.Y && col!==this.start.X){     //if not start or end node
+    //       gridCopy[row][col]=5;                         //mark the curr node as visited
+    //     }
+    //     //console.log(q.length);
+    //     this.setState({
+    //       grid: gridCopy
+    //     });
+        
+    //     ++count;
+    //   } //end of while
+    //   console.log(q);
+    //   console.log("BFS complete");
+    // }
+
     render() {
       return (
         <div>
