@@ -181,18 +181,22 @@ class Main extends React.Component {
     })
     console.log("Algorithm set to "+this.AlgorithmName);
   }
-  animate(visitedNodesInOrder, nodesInShortestPathOrder) { //need visited nodes in order and nodes in shortest path order
-    for (let i = 0; i < visitedNodesInOrder.length; i++) {
+  animate(visitedNodesInOrder, nodesInShortestPathOrder) { //have to write -> need visited nodes in order and nodes in shortest path order
+    for (let i = 0; i <= visitedNodesInOrder.length; i++) {
+      if (i === visitedNodesInOrder.length) {
+        
+        setTimeout(() => {
+          this.animateShortestPath(nodesInShortestPathOrder);
+        }, 10* i);
+        
+        return;
+      }
       setTimeout(() => {
         const node = visitedNodesInOrder[i];
-        document.getElementById(`${node[0]}_${node[1]}`).className = 'box visited';
+        document.getElementById(`${node[0]}_${node[1]}`).className =
+          'box visited';
       }, 10 * i);
     }
-
-    //animate shortestPath
-    setTimeout(() => {
-      this.animateShortestPath(nodesInShortestPathOrder);
-    }, 10 * this.speed);
   }
 
   animateShortestPath(nodesInShortestPathOrder) { 
@@ -201,7 +205,7 @@ class Main extends React.Component {
         const node = nodesInShortestPathOrder[i];
         document.getElementById(`${node[0]}_${node[1]}`).className =
           'box path';
-      }, 10 * i); //this.speed
+      }, 10* i); //this.speed
     }
   }
 
