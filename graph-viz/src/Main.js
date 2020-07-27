@@ -128,12 +128,8 @@ class Main extends React.Component {
     })
   }
   clear = () => {
-    
-    this.AlgorithmName = "Visualizer for Path Finding Algorithms";
-    console.log(this.AlgorithmName);
     this.setState({
       grid: this.createGrid(this.rows,this.cols),
-      AlgorithmName: this.AlgorithmName
     })
   }
   clearVisited = () => {
@@ -145,6 +141,8 @@ class Main extends React.Component {
         }
       }
     }
+    document.getElementById(`${this.start.Y}_${this.start.X}`).className = 'box start';
+    document.getElementById(`${this.end.Y}_${this.end.X}`).className = 'box end';
     this.setState({
       grid:gridCopy
     })
@@ -249,6 +247,8 @@ class Main extends React.Component {
     var visitednodesinorder,nodesinshortestpath;
 
     [visitednodesinorder,nodesinshortestpath] = BFS(grid,startnode,finishnode);
+    nodesinshortestpath.shift();
+    nodesinshortestpath.pop();
     this.animate(visitednodesinorder,nodesinshortestpath);
   }
   visualizeDFS = () => {
@@ -266,6 +266,7 @@ class Main extends React.Component {
     var prev = new Map();
     prev[[this.start.Y,this.start.X]] = [-1,-1];
     if(DFS(grid,visited,visitedNodesInOrder,prev,this.start.Y,this.start.X,this.end.Y,this.end.X,path)) {
+      path.reverse();
       this.animate(visitedNodesInOrder,path);
     }
 

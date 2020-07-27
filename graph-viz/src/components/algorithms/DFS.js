@@ -1,5 +1,3 @@
-import calculatePath from './CalculatePath';
-
 export default function DFS(grid,visited,visitedNodesInorder,prev,srcRow,srcCol,dstRow,dstCol,path) {
 	const ROWS = grid.length;
   const COLS = grid[0].length;
@@ -11,7 +9,6 @@ export default function DFS(grid,visited,visitedNodesInorder,prev,srcRow,srcCol,
 		if(nextRow===dstRow && nextCol===dstCol) {
 			console.log("Path found");
 			prev[[nextRow,nextCol]]=[srcRow,srcCol];
-			path=calculatePath([dstRow,dstCol],prev);
 			return true;
 		}
 		if(nextRow>=0 && nextRow<ROWS && 
@@ -22,6 +19,7 @@ export default function DFS(grid,visited,visitedNodesInorder,prev,srcRow,srcCol,
 			visitedNodesInorder.push([nextRow,nextCol]);
 			prev[[nextRow,nextCol]]=[srcRow,srcCol];
 			if(DFS(grid,visited,visitedNodesInorder,prev,nextRow,nextCol,dstRow,dstCol,path)) {
+				path.push([nextRow,nextCol]);
 				return true;
 			}
 		}
