@@ -217,22 +217,22 @@ class Main extends React.Component {
       const startnode = [this.start.Y,this.start.X];
       const finishnode = [this.end.Y,this.end.X];
       var visitednodesinorder,nodesinshortestpath;
-      visitednodesinorder/*,nodesinshortestpath]*/ = BFS(grid,startnode,finishnode);
+      [visitednodesinorder,nodesinshortestpath] = BFS(grid,startnode,finishnode);
       //console.log(nodesinshortestpath);
       //const nodesinshortestpath = calculatePath(finishnode);
       this.animateBFS(visitednodesinorder,nodesinshortestpath);
 
     }
   animateBFS(visitedNodesInOrder, nodesInShortestPathOrder) { //have to write -> need visited nodes in order and nodes in shortest path order
-    for (let i = 0; i </*=*/ visitedNodesInOrder.length; i++) {
-      /*if (i === visitedNodesInOrder.length) {
+    for (let i = 0; i <= visitedNodesInOrder.length; i++) {
+      if (i === visitedNodesInOrder.length) {
         
         setTimeout(() => {
           this.animateShortestPath(nodesInShortestPathOrder);
         }, 10* i);
         
         return;
-      }*/
+      }
       setTimeout(() => {
         const node = visitedNodesInOrder[i];
         document.getElementById(`${node[0]}_${node[1]}`).className =
