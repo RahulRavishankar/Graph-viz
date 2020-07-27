@@ -1,3 +1,11 @@
+ .algo
+ {
+  color: purple;
+  margin: auto;
+  text-align: center;
+  width: 50%;
+  margin-top: 10px;
+ }
  .box {
   display: inline-block;       
   border: 1px solid black;
@@ -23,7 +31,7 @@
   background-color: green;
 }
 
- .queue {
+.path {
   background-color: #0077ff;
 } 
 

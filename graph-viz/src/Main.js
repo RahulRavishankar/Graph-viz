@@ -2,6 +2,7 @@ import React from 'react';
 import NavBar from './components/NavBar'
 import Grid from './components/Grid'
 import Label from './components/Label'
+import {BFS} from './components/algorithms/BFS'
 
 class Main extends React.Component {
     constructor() {
@@ -21,16 +22,20 @@ class Main extends React.Component {
       this.movingEnd = false;
       this.creatingWalls = false;
       this.runningAlgorithm = false;
-      this.AlgorithmName = "DFS";
-      this.pathLength = -1;           //no path
+      this.AlgorithmName = "Visualizer for Path Finding Algorithms ";
+      this.pathLength = -1;
+      
 			this.createGrid = (rows, cols) => {
-				var grid=new Array(rows);
-				for(let i=0;i<rows;++i) {
-					grid[i] = new Array(cols);
-				}
-	
+       
+        
+        var grid = new Array(rows);
+        for (let i = 0; i < rows; ++i) {
+          grid[i] = new Array(cols);
+          
+        }
 				for(let i=0;i<rows;++i) {
 					for(let j=0;j<cols;++j) {
+           
 						if(i===this.start.Y && j===this.start.X) {	//start cell
 							grid[i][j]=2;
 						}
@@ -39,9 +44,11 @@ class Main extends React.Component {
 						}
 						else {																			//empty cell
 							grid[i][j]=0;
-						}
+            }
+            
 					}
-				}
+        }
+        
 				return grid;
 			}
       this.state = {
@@ -122,8 +129,12 @@ class Main extends React.Component {
 			})
     }
     clear = () => {
+      
+      this.AlgorithmName = "Visualizer for Path Finding Algorithms";
+      console.log(this.AlgorithmName);
       this.setState({
-        grid: this.createGrid(this.rows,this.cols)
+        grid: this.createGrid(this.rows,this.cols),
+        AlgorithmName: this.AlgorithmName
       })
     }
     clearVisited = () => {
@@ -170,20 +181,25 @@ class Main extends React.Component {
     
     setAlgorithm = (algorithmName) => {
       this.AlgorithmName = algorithmName;
+      this.setState({
+        AlgorithmName : algorithmName
+      })
       console.log("Algorithm set to "+this.AlgorithmName);
     }
     startButton = () => {
       console.log("Start clicked")
-      clearInterval(this.intervalId) //clears timer with setInterval method
-      this.intervalId = setInterval(this.play, this.speed)
+      //clearInterval(this.intervalId) //clears timer with setInterval method
+      //this.intervalId = setInterval(this.play, this.speed)
 
       if(this.AlgorithmName==="BFS") {
         console.log("Running BFS");
         this.runningAlgorithm=true;
-        //this.BFS();
+        this.visualizeBFS();
       }
       else if(this.AlgorithmName==="DFS") {
         console.log("Running DFS");
+        //this.runningAlgorithm = true;
+        //this.visualizeDFS();
       }
       else if(this.AlgorithmName==="A*") {
         console.log("Running A*");
@@ -195,7 +211,46 @@ class Main extends React.Component {
         console.log("Invalid Algorithm selected.")
       }
     }
-    
+
+    visualizeBFS = () => {
+      const grid = this.state.grid;
+      const startnode = [this.start.Y,this.start.X];
+      const finishnode = [this.end.Y,this.end.X];
+      var visitednodesinorder,nodesinshortestpath;
+      visitednodesinorder/*,nodesinshortestpath]*/ = BFS(grid,startnode,finishnode);
+      //console.log(nodesinshortestpath);
+      //const nodesinshortestpath = calculatePath(finishnode);
+      this.animateBFS(visitednodesinorder,nodesinshortestpath);
+
+    }
+  animateBFS(visitedNodesInOrder, nodesInShortestPathOrder) { //have to write -> need visited nodes in order and nodes in shortest path order
+    for (let i = 0; i </*=*/ visitedNodesInOrder.length; i++) {
+      /*if (i === visitedNodesInOrder.length) {
+        
+        setTimeout(() => {
+          this.animateShortestPath(nodesInShortestPathOrder);
+        }, 10* i);
+        
+        return;
+      }*/
+      setTimeout(() => {
+        const node = visitedNodesInOrder[i];
+        document.getElementById(`${node[0]}_${node[1]}`).className =
+          'box visited';
+      }, 10 * i);
+    }
+  }
+
+  animateShortestPath(nodesInShortestPathOrder) { 
+    for (let i = 0; i < nodesInShortestPathOrder.length; i++) {
+      setTimeout(() => {
+        const node = nodesInShortestPathOrder[i];
+        document.getElementById(`${node[0]}_${node[1]}`).className =
+          'box path';
+      }, 10 * i); //this.speed
+    }
+  }
+  
     // BFS() {
     //   var q=[];
     //   this.clearVisited();
@@ -242,6 +297,7 @@ class Main extends React.Component {
     //   console.log("BFS complete");
     // }
 
+
     render() {
       return (
         <div>
@@ -253,7 +309,7 @@ class Main extends React.Component {
             gridSize={this.gridSize}
             setAlgorithm={this.setAlgorithm}
           />
-  
+          <h4 className="algo">{this.AlgorithmName}</h4>
           <Grid
             grid={this.state.grid}
             rows={this.rows}

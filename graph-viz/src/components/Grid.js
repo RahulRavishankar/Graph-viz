@@ -18,7 +18,7 @@ class Box extends React.Component {
   render() {
     return (
       <div className={this.props.boxClass}
-        id={this.props.id}
+        id={this.props.boxId}
         onClick={this.myOnClick}
         onMouseDown={this.myOnMouseDown}
         onMouseEnter={this.myOnMouseEnter}
