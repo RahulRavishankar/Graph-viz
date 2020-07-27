@@ -1,3 +1,5 @@
+import calculatePath from './CalculatePath';
+
 // Performs BFS algorithm; returns *all* nodes in the order
 // in which they were visited. Also makes nodes point back to their
 // previous node, effectively allowing us to compute the shortest path
@@ -10,25 +12,26 @@ export function BFS(grid = [], startnode, finishnode) {
 
     const queue = [];
     const visitednodesinorder = [];
-    //var shortestpathnodes = new Set();
-    queue.push([startnode[0], startnode[1]]);
-    //console.log(queue[0]);
+    const prev = new Map();
+    prev[startnode] = [-1,-1];
+    let curr = startnode;
+    queue.push(startnode);
+    //console.log(startnode);
 
     while (queue.length > 0) {
         let curr = queue.shift();
-        //console.log(curr);
         if (finishnode[0] === curr[0] && finishnode[1] === curr[1]) {
-            //visitednodesinorder.pop();
-            //console.log()
-            return visitednodesinorder//,calculatePath(finishnode)];
+            
+            return [visitednodesinorder,calculatePath(finishnode,prev)];
 
         }
         const neighbours = getAllNeighbours(grid, curr);
-        //neighbour = [i,j]
         for (const neighbour of neighbours) {
             
             grid[neighbour[0]][neighbour[1]] = 4;
-            //grid[neighbour[0]][neighbour[1]].previousnode = [curr[0], curr[1]];
+            //prev[[neighbour[0],neighbour[1]]] = c;
+            prev[neighbour] = curr;
+            //console.log(prev[neighbour]);
             //shortestpathnodes.add(curr);
             
             visitednodesinorder.push(neighbour);
@@ -39,20 +42,17 @@ export function BFS(grid = [], startnode, finishnode) {
 
 
     }
-    //console.log("final", visitednodesinorder);
-    return visitednodesinorder//, calculatePath(finishnode)];
+    console.log("this case");
+    return [visitednodesinorder, calculatePath(curr,prev)];
 
 
 
 }
 function getAllNeighbours(grid = [], node) {
     const ROWS = grid.length;
-    //console.log(ROWS);
     const COLS = grid[0].length;
-    //console.log(COLS);
     const row = node[0];
     const col = node[1];
-    //console.log(col);
     const neighbours = [];
 
     if ((row + 1 >= 0) && (row + 1 < ROWS) && (col >= 0) && (col < COLS) && (grid[row + 1][col] === 0 || grid[row + 1][col] === 3)) {
@@ -71,17 +71,3 @@ function getAllNeighbours(grid = [], node) {
     return neighbours;
 
 }
-
-/*function calculatePath(finishnode)
-{  const shortestpathnodes = [];
-   let curr = finishnode;
-    while(curr.previousnode !== [-1,-1])
-    {
-        shortestpathnodes.unshift(curr);
-        curr = curr.previousnode;
-    }
-   return shortestpathnodes;
-}*/
-
-
-
