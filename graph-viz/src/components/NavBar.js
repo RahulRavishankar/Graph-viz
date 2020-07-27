@@ -14,6 +14,8 @@ class NavBar extends Component {
 							<NavDropdown.Item onClick={() => {this.props.setAlgorithm("DFS")}} >DFS</NavDropdown.Item>
 							<NavDropdown.Item onClick={() => {this.props.setAlgorithm("A*")}} >A*</NavDropdown.Item>
 			                <NavDropdown.Item onClick={() => {this.props.setAlgorithm("Djikstra's")}} >Djikstra's</NavDropdown.Item>
+							<NavDropdown.Item onClick={() => {this.props.setAlgorithm("Bellman Ford")}} >Bellman Ford</NavDropdown.Item>
+							<NavDropdown.Item onClick={() => {this.props.setAlgorithm("Greedy Best First Search")}} >Greedy Best First Search</NavDropdown.Item>
 						</NavDropdown>
 					</Nav>
 				</Navbar.Collapse>

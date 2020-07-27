@@ -3,6 +3,7 @@ import NavBar from './components/NavBar'
 import Grid from './components/Grid'
 import Label from './components/Label'
 import {BFS} from './components/algorithms/BFS'
+import DFS from './components/algorithms/DFS'
 
 class Main extends React.Component {
     constructor() {
@@ -22,12 +23,10 @@ class Main extends React.Component {
       this.movingEnd = false;
       this.creatingWalls = false;
       this.runningAlgorithm = false;
-      this.AlgorithmName = "Visualizer for Path Finding Algorithms ";
+      this.AlgorithmName = "";
       this.pathLength = -1;
       
 			this.createGrid = (rows, cols) => {
-       
-        
         var grid = new Array(rows);
         for (let i = 0; i < rows; ++i) {
           grid[i] = new Array(cols);
@@ -141,8 +140,8 @@ class Main extends React.Component {
       let gridCopy=arrayClone(this.state.grid);
       for(let row=0;row<this.rows;++row){
         for(let col=0;col<this.cols;++col) {
-          if(this.state.grid[row][col]===4 || this.state.grid[row][col]===5) {
-            gridCopy[row][col]=0;
+          if(this.state.grid[row][col]===0) {
+            document.getElementById(`${row}_${col}`).className = 'box empty';
           }
         }
       }
@@ -188,6 +187,7 @@ class Main extends React.Component {
     }
     startButton = () => {
       console.log("Start clicked")
+      this.clearVisited();
       //clearInterval(this.intervalId) //clears timer with setInterval method
       //this.intervalId = setInterval(this.play, this.speed)
 
@@ -198,8 +198,9 @@ class Main extends React.Component {
       }
       else if(this.AlgorithmName==="DFS") {
         console.log("Running DFS");
-        //this.runningAlgorithm = true;
-        //this.visualizeDFS();
+        this.runningAlgorithm = true;
+        this.visualizeDFS();
+        this.runningAlgorithm=false;
       }
       else if(this.AlgorithmName==="A*") {
         console.log("Running A*");
@@ -207,8 +208,14 @@ class Main extends React.Component {
       else if(this.AlgorithmName==="Djikstra's") {
         console.log("Running Djikstra's");
       }
+      else if(this.AlgorithmName==="Bellman Ford") {
+        console.log("Running A*");
+      }
+      else if(this.AlgorithmName==="Greedy Best First Search") {
+        console.log("Running A*");
+      }
       else {
-        console.log("Invalid Algorithm selected.")
+        console.log("Algorithm to be selected.")
       }
     }
 
@@ -223,80 +230,51 @@ class Main extends React.Component {
       this.animateBFS(visitednodesinorder,nodesinshortestpath);
 
     }
-  animateBFS(visitedNodesInOrder, nodesInShortestPathOrder) { //have to write -> need visited nodes in order and nodes in shortest path order
-    for (let i = 0; i </*=*/ visitedNodesInOrder.length; i++) {
-      /*if (i === visitedNodesInOrder.length) {
-        
+    animateBFS(visitedNodesInOrder, nodesInShortestPathOrder) { //have to write -> need visited nodes in order and nodes in shortest path order
+      for (let i = 0; i </*=*/ visitedNodesInOrder.length; i++) {
+        /*if (i === visitedNodesInOrder.length) {
+          
+          setTimeout(() => {
+            this.animateShortestPath(nodesInShortestPathOrder);
+          }, 10* i);
+          
+          return;
+        }*/
         setTimeout(() => {
-          this.animateShortestPath(nodesInShortestPathOrder);
-        }, 10* i);
-        
-        return;
-      }*/
-      setTimeout(() => {
-        const node = visitedNodesInOrder[i];
-        document.getElementById(`${node[0]}_${node[1]}`).className =
-          'box visited';
-      }, 10 * i);
+          const node = visitedNodesInOrder[i];
+          document.getElementById(`${node[0]}_${node[1]}`).className =
+            'box visited';
+        }, 10 * i);
+      }
     }
-  }
 
-  animateShortestPath(nodesInShortestPathOrder) { 
-    for (let i = 0; i < nodesInShortestPathOrder.length; i++) {
-      setTimeout(() => {
-        const node = nodesInShortestPathOrder[i];
-        document.getElementById(`${node[0]}_${node[1]}`).className =
-          'box path';
-      }, 10 * i); //this.speed
+    animateShortestPath(nodesInShortestPathOrder) { 
+      for (let i = 0; i < nodesInShortestPathOrder.length; i++) {
+        setTimeout(() => {
+          const node = nodesInShortestPathOrder[i];
+          document.getElementById(`${node[0]}_${node[1]}`).className =
+            'box path';
+        }, 10 * i); //this.speed
+      }
     }
-  }
   
-    // BFS() {
-    //   var q=[];
-    //   this.clearVisited();
-    
-    //   q.push([this.start.Y,this.start.X]);
-    //   var curr,col,row;  
-    //   let count=0;
-    //   while(q.length>0 && count<15)
-    //   {
-    //     let gridCopy=arrayClone(this.state.grid);
-    //     curr = q.shift();
-    //     row=curr[0]; col=curr[1];
-    //     if(row===this.end.Y && col===this.end.X) {
-    //       console.log("Path will be displayed soon!");
-    //       //break;
-    //     }
-    //     if(col-1>=0 && (this.state.grid[row][col-1]===0 || this.state.grid[row][col-1]===3)) {    //if node is not visited or is end cell
-    //       q.push([row,col-1]);
-    //       gridCopy[row][col-1]=4;     //mark the node as added to the queue
-    //     }
-    //     if(row-1>=0 && (this.state.grid[row-1][col]===0 || this.state.grid[row-1][col]===3)) {
-    //       q.push([row-1,col]);
-    //       gridCopy[row-1][col]=4;
-    //     }
-    //     if(col+1<this.cols && (this.state.grid[row][col+1]===0 || this.state.grid[row][col+1]===3)) {
-    //       q.push([row,col+1]);
-    //       gridCopy[row][col+1]=4;
-    //     }
-    //     if(row+1<this.rows && (this.state.grid[row+1][col]===0 || this.state.grid[row+1][col]===3)) {
-    //       q.push([row+1,col]);  
-    //       gridCopy[row+1][col]=4;
-    //     }
-    //     if(row!==this.start.Y && col!==this.start.X){     //if not start or end node
-    //       gridCopy[row][col]=5;                         //mark the curr node as visited
-    //     }
-    //     //console.log(q.length);
-    //     this.setState({
-    //       grid: gridCopy
-    //     });
-        
-    //     ++count;
-    //   } //end of while
-    //   console.log(q);
-    //   console.log("BFS complete");
-    // }
+    visualizeDFS = () => {
+      var grid=this.state.grid;
+      var visitedNodesInOrder = [];
+      var visited=new Array(this.rows);
+      for(let i=0;i<this.rows;++i)  {
+        visited[i]=new Array(this.cols);
+        for(let j=0;j<this.cols;++j) {
+          visited[i][j]=false;
+        }
+      }
+      visited[this.start.Y][this.start.X]=true;
+      console.log("Calling DFS now");
+      DFS(grid,visited,visitedNodesInOrder,this.start.Y,this.start.X,this.end.Y,this.end.X);
+      console.log("DFS Done.....Starting animation");
 
+      this.animateBFS(visitedNodesInOrder,[]);
+    }
 
     render() {
       return (
