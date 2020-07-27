@@ -261,9 +261,10 @@ class Main extends React.Component {
     var path = [];
     var prev = new Map();
     prev[[this.start.Y,this.start.X]] = [-1,-1];
-    DFS(grid,visited,visitedNodesInOrder,prev,this.start.Y,this.start.X,this.end.Y,this.end.X,path);
+    if(DFS(grid,visited,visitedNodesInOrder,prev,this.start.Y,this.start.X,this.end.Y,this.end.X,path)) {
+      this.animate(visitedNodesInOrder,path);
+    }
 
-    this.animate(visitedNodesInOrder,path);
   }
 
   render() {
