@@ -16,12 +16,13 @@ function calculateHValue(row, col, end)
                     + (col-end[1])*(col-end[1])); 
 }
 
-function findPath(Cells, end, Path) 
+function findPath(Cells, end) 
 { 
     var row = end[0]; 
     var col = end[1]; 
    
-		var temp_row,temp_col;
+	var Path =[];
+	var temp_row,temp_col;
     while (!(Cells[row][col].parent_i === row && Cells[row][col].parent_j === col )) 
     { 
         Path.push ([row, col]); 
@@ -36,9 +37,11 @@ function findPath(Cells, end, Path)
     return Path; 
 } 
 
-export default function AStar(grid,start,end,visitedNodeInorder,path) {
+export default function AStar(grid,startnode,endnode) {
 	var rows = grid.length;
 	var cols = grid[0].length;
+
+	const visitedNodeInorder = [];
 
 	var Cells = new Array(rows);
 	for(let i=0;i<rows;++i) {
@@ -53,7 +56,7 @@ export default function AStar(grid,start,end,visitedNodeInorder,path) {
 		closed[i]=new Array(cols).fill(false);
 	}
 
-	var startY=start[0]; var startX=start[1];
+	var startY=startnode[0]; var startX=startnode[1];
 	Cells[startY][startX].f=0.0;
 	Cells[startY][startX].g=0.0;
 	Cells[startY][startX].h=0.0;
@@ -76,16 +79,15 @@ export default function AStar(grid,start,end,visitedNodeInorder,path) {
 		for(let k=0;k<dir.length;++k) {
 			nextRow=i+dir[k][0]; nextCol=j+dir[k][1];
 			if(nextRow>=0 && nextRow<rows && nextCol>=0 && nextCol<cols) {
-				if(nextRow===end[0] && nextCol===end[1]) {
+				if(nextRow===endnode[0] && nextCol===endnode[1]) {
 					console.log("Path found");
 					Cells[nextRow][nextCol].parent_i=i;
 					Cells[nextRow][nextCol].parent_j=j;
-					findPath(Cells,end,path);
-					return true;
+					return [visitedNodeInorder,findPath(Cells,endnode)];
 				}
 				else if(closed[nextRow][nextCol]===false && grid[nextRow][nextCol]===0) {
 					var gNew=Cells[i][j].g + 1.0;			
-					var hNew=calculateHValue(nextRow,nextCol,end);
+					var hNew=calculateHValue(nextRow,nextCol,endnode);
 					var fNew=gNew+hNew;
 
 					if(Cells[nextRow][nextCol].f===MAX || Cells[nextRow][nextCol].f>fNew ) {
@@ -101,5 +103,5 @@ export default function AStar(grid,start,end,visitedNodeInorder,path) {
 			}
 		}
 	}
-	return false;
+	return [visitedNodeInorder,[startnode,endnode]];
 }

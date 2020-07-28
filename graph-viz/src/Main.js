@@ -298,13 +298,16 @@ class Main extends React.Component {
 
   }
   visualizeAStar = () => {
-    var path=[];
-    var visitedNodesInOrder=[];
-    AStar(this.state.grid,[this.start.Y,this.start.X],[this.end.Y,this.end.X],visitedNodesInOrder,path);
+    const grid = this.state.grid;
+    const startnode = [this.start.Y,this.start.X];
+    const endnode = [this.end.Y,this.end.X];
+    var visitedNodesInorder, path;
+
+    [visitedNodesInorder , path] = AStar(grid,startnode,endnode);
     path.shift();
     path.pop();
-    visitedNodesInOrder.shift();
-    this.animate(visitedNodesInOrder,path);
+    visitedNodesInorder.shift();
+    this.animate(visitedNodesInorder,path);
   }
   visualizeGreedyBestFirst = () => {
     const grid = this.state.grid;
@@ -313,8 +316,8 @@ class Main extends React.Component {
     var visitedNodesInorder,nodesinshortestpath;
 
     [visitedNodesInorder , nodesinshortestpath] = GreedyBestFirst(grid,startnode,endnode);
-    // nodesinshortestpath.shift();
-    // nodesinshortestpath.pop();
+    nodesinshortestpath.shift();
+    nodesinshortestpath.pop();
     this.animate(visitedNodesInorder,nodesinshortestpath);
   }
   render() {
