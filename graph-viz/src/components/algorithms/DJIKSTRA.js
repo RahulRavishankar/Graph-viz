@@ -14,6 +14,7 @@ export default function DJIKSTRA(grid, startnode, finishnode) {
     while (size(distance) > 0) {
         sort(distance); //function to sort distance map by value
         const closestnode = distance.keys().next().value;
+        distance.delete(closestnode);
         if (distance[closestnode] === Number.MAX_VALUE) {
             return [visitednodesinorder, calculatePath(closestnode)];
         }
