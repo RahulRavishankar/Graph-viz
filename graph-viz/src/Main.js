@@ -4,6 +4,7 @@ import Grid from './components/Grid'
 import Label from './components/Label'
 import {BFS} from './components/algorithms/BFS'
 import DFS from './components/algorithms/DFS'
+import DJIKSTRA from './components/algorithms/DJIKSTRA'
 
 class Main extends React.Component {
   constructor() {
@@ -23,7 +24,7 @@ class Main extends React.Component {
     this.movingEnd = false;
     this.creatingWalls = false;
     this.runningAlgorithm = false;
-    this.AlgorithmName = "";
+    this.AlgorithmName = "Visualizer for Path Finding Algorithms";
     this.pathLength = -1;
     
     this.createGrid = (rows, cols) => {
@@ -128,7 +129,7 @@ class Main extends React.Component {
     })
   }
   clear = () => {
-    
+    this.clearVisited();
     this.AlgorithmName = "Visualizer for Path Finding Algorithms";
     console.log(this.AlgorithmName);
     this.setState({
@@ -145,6 +146,8 @@ class Main extends React.Component {
         }
       }
     }
+    document.getElementById(`${this.start.Y}_${this.start.X}`).className = 'box start';
+    document.getElementById(`${this.end.Y}_${this.end.X}`).className = 'box end';
     this.setState({
       grid:gridCopy
     })
@@ -230,12 +233,15 @@ class Main extends React.Component {
     }
     else if(this.AlgorithmName==="Djikstra's") {
       console.log("Running Djikstra's");
+      this.runningAlgorithm = true;
+      this.visualizeDjikstra();
+      this.runningAlgorithm = false;
     }
     else if(this.AlgorithmName==="Bellman Ford") {
-      console.log("Running A*");
+      console.log("Running Bellman Ford");
     }
     else if(this.AlgorithmName==="Greedy Best First Search") {
-      console.log("Running A*");
+      console.log("Running Greedy Best first Search");
     }
     else {
       console.log("Algorithm to be selected.")
@@ -268,6 +274,17 @@ class Main extends React.Component {
     DFS(grid,visited,visitedNodesInOrder,prev,this.start.Y,this.start.X,this.end.Y,this.end.X,path);
 
     this.animate(visitedNodesInOrder,path);
+  }
+  visualizeDjikstra = () =>{
+     const grid = this.state.grid;
+     const startnode = [this.start.Y,this.start.X];
+     const finishnode = [this.end.Y,this.end.X];
+     var visitednodesinorder, nodesinshortestpath;
+    
+    [visitednodesinorder, nodesinshortestpath] = DJIKSTRA(grid, startnode, finishnode);
+    console.log("ye");
+    this.animate(visitednodesinorder, nodesinshortestpath);
+
   }
 
   render() {
