@@ -134,7 +134,6 @@ class Main extends React.Component {
     console.log(this.AlgorithmName);
     this.setState({
       grid: this.createGrid(this.rows,this.cols),
-      AlgorithmName: this.AlgorithmName
     })
   }
   clearVisited = () => {
@@ -255,6 +254,8 @@ class Main extends React.Component {
     var visitednodesinorder,nodesinshortestpath;
 
     [visitednodesinorder,nodesinshortestpath] = BFS(grid,startnode,finishnode);
+    nodesinshortestpath.shift();
+    nodesinshortestpath.pop();
     this.animate(visitednodesinorder,nodesinshortestpath);
   }
   visualizeDFS = () => {
@@ -271,9 +272,11 @@ class Main extends React.Component {
     var path = [];
     var prev = new Map();
     prev[[this.start.Y,this.start.X]] = [-1,-1];
-    DFS(grid,visited,visitedNodesInOrder,prev,this.start.Y,this.start.X,this.end.Y,this.end.X,path);
+    if(DFS(grid,visited,visitedNodesInOrder,prev,this.start.Y,this.start.X,this.end.Y,this.end.X,path)) {
+      path.reverse();
+      this.animate(visitedNodesInOrder,path);
+    }
 
-    this.animate(visitedNodesInOrder,path);
   }
   visualizeDjikstra = () =>{
      const grid = this.state.grid;
