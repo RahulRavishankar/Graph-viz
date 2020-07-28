@@ -2,7 +2,7 @@ import React from 'react';
 import NavBar from './components/NavBar'
 import Grid from './components/Grid'
 import Label from './components/Label'
-import {BFS} from './components/algorithms/BFS'
+import BFS from './components/algorithms/BFS'
 import DFS from './components/algorithms/DFS'
 import DJIKSTRA from './components/algorithms/DJIKSTRA'
 import AStar from './components/algorithms/AStar';
@@ -309,13 +309,13 @@ class Main extends React.Component {
   visualizeGreedyBestFirst = () => {
     const grid = this.state.grid;
     const startnode = [this.start.Y,this.start.X];
-    const finishnode = [this.end.Y,this.end.X];
-    var visitednodesinorder,nodesinshortestpath;
+    const endnode = [this.end.Y,this.end.X];
+    var visitedNodesInorder,nodesinshortestpath;
 
-    [visitednodesinorder,nodesinshortestpath] = GreedyBestFirst(grid,startnode,finishnode);
-    nodesinshortestpath.shift();
-    nodesinshortestpath.pop();
-    this.animate(visitednodesinorder,nodesinshortestpath);
+    [visitedNodesInorder , nodesinshortestpath] = GreedyBestFirst(grid,startnode,endnode);
+    // nodesinshortestpath.shift();
+    // nodesinshortestpath.pop();
+    this.animate(visitedNodesInorder,nodesinshortestpath);
   }
   render() {
     return (

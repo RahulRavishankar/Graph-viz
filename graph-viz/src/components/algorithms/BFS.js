@@ -9,7 +9,7 @@ import getAllNeighbours from './getAllNeighbours';
 
 
 //const visitednodesinorder = [];
-export function BFS(grid = [], startnode, finishnode) {
+function BFS(grid = [], startnode, finishnode) {
 
     const queue = [];
     const visitednodesinorder = [];
@@ -49,3 +49,4 @@ export function BFS(grid = [], startnode, finishnode) {
 
 
 }
+export default BFS;
