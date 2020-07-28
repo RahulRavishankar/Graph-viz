@@ -6,6 +6,7 @@ import {BFS} from './components/algorithms/BFS'
 import DFS from './components/algorithms/DFS'
 import DJIKSTRA from './components/algorithms/DJIKSTRA'
 import AStar from './components/algorithms/AStar';
+import GreedyBestFirst from './components/algorithms/GreedyBestFirst';
 
 class Main extends React.Component {
   constructor() {
@@ -245,6 +246,9 @@ class Main extends React.Component {
     }
     else if(this.AlgorithmName==="Greedy Best First Search") {
       console.log("Running Greedy Best first Search");
+      this.runningAlgorithm=true;
+      this.visualizeGreedyBestFirst();
+      this.runningAlgorithm=false;
     }
     else {
       console.log("Algorithm to be selected.")
@@ -301,6 +305,17 @@ class Main extends React.Component {
     path.pop();
     visitedNodesInOrder.shift();
     this.animate(visitedNodesInOrder,path);
+  }
+  visualizeGreedyBestFirst = () => {
+    const grid = this.state.grid;
+    const startnode = [this.start.Y,this.start.X];
+    const finishnode = [this.end.Y,this.end.X];
+    var visitednodesinorder,nodesinshortestpath;
+
+    [visitednodesinorder,nodesinshortestpath] = GreedyBestFirst(grid,startnode,finishnode);
+    nodesinshortestpath.shift();
+    nodesinshortestpath.pop();
+    this.animate(visitednodesinorder,nodesinshortestpath);
   }
   render() {
     return (
