@@ -5,6 +5,7 @@ import Label from './components/Label'
 import {BFS} from './components/algorithms/BFS'
 import DFS from './components/algorithms/DFS'
 import DJIKSTRA from './components/algorithms/DJIKSTRA'
+import AStar from './components/algorithms/AStar';
 
 class Main extends React.Component {
   constructor() {
@@ -229,6 +230,9 @@ class Main extends React.Component {
     }
     else if(this.AlgorithmName==="A*") {
       console.log("Running A*");
+      this.runningAlgorithm=true;
+      this.visualizeAStar();
+      this.runningAlgorithm=false;
     }
     else if(this.AlgorithmName==="Djikstra's") {
       console.log("Running Djikstra's");
@@ -289,7 +293,15 @@ class Main extends React.Component {
     this.animate(visitednodesinorder, nodesinshortestpath);
 
   }
-
+  visualizeAStar = () => {
+    var path=[];
+    var visitedNodesInOrder=[];
+    AStar(this.state.grid,[this.start.Y,this.start.X],[this.end.Y,this.end.X],visitedNodesInOrder,path);
+    path.shift();
+    path.pop();
+    visitedNodesInOrder.shift();
+    this.animate(visitedNodesInOrder,path);
+  }
   render() {
     return (
       <div>
