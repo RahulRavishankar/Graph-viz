@@ -59,6 +59,10 @@ class Main extends React.Component {
 
   }
   myOnMouseDown = (row, col) => {
+    if(this.runningAlgorithm===true) {
+      alert("Please wait, "+this.AlgorithmName+" is running!\n");
+      return;
+    }
     if(row===this.start.Y && col===this.start.X) {
       this.movingStart=true;
     }
@@ -160,14 +164,14 @@ class Main extends React.Component {
     console.log("Setting back to false");
     this.runningAlgorithm = false;
   }
-  animate(visitedNodesInOrder, nodesInShortestPathOrder) { //have to write -> need visited nodes in order and nodes in shortest path order
+  animate(visitedNodesInOrder, nodesInShortestPathOrder,set) { //have to write -> need visited nodes in order and nodes in shortest path order
     for (let i = 0; i <= visitedNodesInOrder.length; i++) {
       if (i === visitedNodesInOrder.length) {
         
         setTimeout(() => {
           this.animateShortestPath(nodesInShortestPathOrder);
         }, 10* i);
-        
+        setTimeout(() => { set(); },10*(visitedNodesInOrder.length+nodesInShortestPathOrder.length));
         return;
       }
       setTimeout(() => {
@@ -184,13 +188,12 @@ class Main extends React.Component {
         const node = nodesInShortestPathOrder[i];
         document.getElementById(`${node[0]}_${node[1]}`).className =
           'box path';
-      }, 10* i); //this.speed
+      }, 10* i);
     }
   }
 
   startButton = () => {
     console.log("Start clicked")
-    // not working
     if(this.runningAlgorithm === true) {
       alert("Please wait, "+this.AlgorithmName+" is running!");
       return;
@@ -201,25 +204,21 @@ class Main extends React.Component {
       console.log("Running BFS");
       this.runningAlgorithm = true;
       this.visualizeBFS();
-      this.runningAlgorithm = false;
     }
     else if(this.AlgorithmName==="DFS") {
       console.log("Running DFS");
       this.runningAlgorithm = true;
       this.visualizeDFS();
-      this.runningAlgorithm = false;
     }
     else if(this.AlgorithmName==="A*") {
       console.log("Running A*");
       this.runningAlgorithm = true;
       this.visualizeAStar();
-      this.runningAlgorithm = false;
     }
     else if(this.AlgorithmName==="Djikstra's") {
       console.log("Running Djikstra's");
       this.runningAlgorithm = true;
       this.visualizeDjikstra();
-      this.runningAlgorithm = false;
     }
     else if(this.AlgorithmName==="Bellman Ford") {
       console.log("Running Bellman Ford");
@@ -228,7 +227,6 @@ class Main extends React.Component {
       console.log("Running Greedy Best first Search");
       this.runningAlgorithm = true;
       this.visualizeGreedyBestFirst();
-      this.runningAlgorithm = false;
     }
     else {
       console.log("Algorithm to be selected.")
@@ -244,7 +242,7 @@ class Main extends React.Component {
     [visitednodesinorder,nodesinshortestpath] = BFS(grid,startnode,finishnode);
     nodesinshortestpath.shift();
     nodesinshortestpath.pop();
-    this.animate(visitednodesinorder,nodesinshortestpath);
+    this.animate(visitednodesinorder,nodesinshortestpath,this.setFalse);
   }
   visualizeDFS = () => {
     var grid=this.state.grid;
@@ -264,7 +262,7 @@ class Main extends React.Component {
     const endnode = [this.end.Y,this.end.X]
     if(DFS(grid,visited,visitedNodesInOrder,startnode,endnode,path)) {
       path.reverse();
-      this.animate(visitedNodesInOrder,path);
+      this.animate(visitedNodesInOrder,path,this.setFalse);
       this.pathLength=path.length;
     }
   }
@@ -279,7 +277,7 @@ class Main extends React.Component {
     this.animate(visitednodesinorder, nodesinshortestpath);
 
   }
-  visualizeAStar = (set) => {
+  visualizeAStar = () => {
     const grid = this.state.grid;
     const startnode = [this.start.Y,this.start.X];
     const endnode = [this.end.Y,this.end.X];
@@ -289,7 +287,7 @@ class Main extends React.Component {
     path.shift();
     path.pop();
     visitedNodesInorder.shift();
-    this.animate(visitedNodesInorder,path,set);
+    this.animate(visitedNodesInorder,path,this.setFalse);
     this.pathLength=path.length;
   }
   visualizeGreedyBestFirst = () => {
@@ -302,7 +300,7 @@ class Main extends React.Component {
     visitedNodesInorder.shift();
     path.shift();
     path.pop();
-    this.animate(visitedNodesInorder,path);
+    this.animate(visitedNodesInorder,path,this.setFalse);
     this.pathLength=path.length;
   }
   render() {
