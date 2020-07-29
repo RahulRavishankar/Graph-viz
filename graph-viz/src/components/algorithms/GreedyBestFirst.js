@@ -32,14 +32,10 @@ function GreedyBestFirst(grid,startnode,endnode) {
         visitedNodesInorder.push(curr.element);
         row=curr.element[0];
         col=curr.element[1];
-        if(row===endnode[0] && col===endnode[1]){
-            console.log("Path found");
-            return [visitedNodesInorder,calculatePath(endnode,prev)];
-        }
         for(let i=0;i<4;++i) {
             nextRow=row+dir[i][0]; nextCol=col+dir[i][1];
             if(nextRow>=0 && nextRow<rows && nextCol>=0 && nextCol<cols && 
-            visited[nextRow][nextCol]===false && grid[nextRow][nextCol]===0) {
+            visited[nextRow][nextCol]===false && (grid[nextRow][nextCol]===0 || grid[nextRow][nextCol]===3)) {
                 visited[nextRow][nextCol]=true;
                 
                 pq.enqueue([nextRow,nextCol],dist(nextRow,nextCol,endnode));

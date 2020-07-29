@@ -313,12 +313,13 @@ class Main extends React.Component {
     const grid = this.state.grid;
     const startnode = [this.start.Y,this.start.X];
     const endnode = [this.end.Y,this.end.X];
-    var visitedNodesInorder,nodesinshortestpath;
+    var visitedNodesInorder,path;
 
-    [visitedNodesInorder , nodesinshortestpath] = GreedyBestFirst(grid,startnode,endnode);
-    nodesinshortestpath.shift();
-    nodesinshortestpath.pop();
-    this.animate(visitedNodesInorder,nodesinshortestpath);
+    [visitedNodesInorder , path] = GreedyBestFirst(grid,startnode,endnode);
+    visitedNodesInorder.shift();
+    path.shift();
+    path.pop();
+    this.animate(visitedNodesInorder,path);
   }
   render() {
     return (
