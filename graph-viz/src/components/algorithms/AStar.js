@@ -1,3 +1,5 @@
+import PriorityQueue from './PriorityQueue'
+
 var MAX=100000000.0;
 class Cell {
 	constructor() {
@@ -63,16 +65,16 @@ export default function AStar(grid,startnode,endnode) {
 	Cells[startY][startX].parent_i=startY;
 	Cells[startY][startX].parent_j=startX;
 	
-	var open=[];
-	open.push([0,startY,startX]);
+	var open=new PriorityQueue();
+	open.enqueue(startnode,0);
 
 	var dir=[[0,1],[0,-1],[1,0],[-1,0]];
 	var p,i,j,nextRow,nextCol;
-	while(open.length>0) {
-		p=open.shift();
+	while(open.items.length>0) {
+		p=open.dequeue();
 
-		i=p[1];
-		j=p[2];
+		i=p.element[0];
+		j=p.element[1];
 		closed[i][j]=true;
 		visitedNodeInorder.push([i,j]);
 		
@@ -91,8 +93,8 @@ export default function AStar(grid,startnode,endnode) {
 					var fNew=gNew+hNew;
 
 					if(Cells[nextRow][nextCol].f===MAX || Cells[nextRow][nextCol].f>fNew ) {
-						open.push([fNew,nextRow,nextCol]);
-						open.sort();
+						open.enqueue([nextRow,nextCol],fNew);
+				
 						Cells[nextRow][nextCol].f=fNew;
 						Cells[nextRow][nextCol].g=gNew;
 						Cells[nextRow][nextCol].h=hNew;

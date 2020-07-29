@@ -11,7 +11,6 @@ import GreedyBestFirst from './components/algorithms/GreedyBestFirst';
 class Main extends React.Component {
   constructor() {
     super();
-    this.speed = 500;
     this.rows = 30;
     this.cols = 50;
     this.start = {
@@ -26,8 +25,9 @@ class Main extends React.Component {
     this.movingEnd = false;
     this.creatingWalls = false;
     this.runningAlgorithm = false;
-    this.AlgorithmName = "Visualizer for Path Finding Algorithms";
+    this.AlgorithmName = "";
     this.pathLength = -1;
+    this.title = "Visualizer for Path Finding Algorithms";
     
     this.createGrid = (rows, cols) => {
       var grid = new Array(rows);
@@ -132,8 +132,6 @@ class Main extends React.Component {
   }
   clear = () => {
     this.clearVisited();
-    this.AlgorithmName = "Visualizer for Path Finding Algorithms";
-    console.log(this.AlgorithmName);
     this.setState({
       grid: this.createGrid(this.rows,this.cols),
     })
@@ -153,37 +151,14 @@ class Main extends React.Component {
       grid:gridCopy
     })
   }
-  slow = () => {
-    this.speed = 1000;
-  }
-  fast = () => {
-    this.speed = 100;
-  }
-
-  gridSize = (option) => {
-    switch (option) {
-      case "1":
-        this.cols = 20;
-        this.rows = 10;
-        break;
-      case "2":
-        this.cols = 50;
-        this.rows = 30;
-        break;
-      default:
-        this.cols = 70;
-        this.rows = 50;
-
-    }
-    this.clear();
-  }
 
   setAlgorithm = (algorithmName) => {
     this.AlgorithmName = algorithmName;
-    this.setState({
-      AlgorithmName : algorithmName
-    })
     console.log("Algorithm set to "+this.AlgorithmName);
+  }
+  setFalse = () => {
+    console.log("Setting back to false");
+    this.runningAlgorithm = false;
   }
   animate(visitedNodesInOrder, nodesInShortestPathOrder) { //have to write -> need visited nodes in order and nodes in shortest path order
     for (let i = 0; i <= visitedNodesInOrder.length; i++) {
@@ -215,25 +190,30 @@ class Main extends React.Component {
 
   startButton = () => {
     console.log("Start clicked")
+    // not working
+    if(this.runningAlgorithm === true) {
+      alert("Please wait, "+this.AlgorithmName+" is running!");
+      return;
+    }
     this.clearVisited();
 
     if(this.AlgorithmName==="BFS") {
       console.log("Running BFS");
-      this.runningAlgorithm=true;
+      this.runningAlgorithm = true;
       this.visualizeBFS();
-      this.runningAlgorithm=false;
+      this.runningAlgorithm = false;
     }
     else if(this.AlgorithmName==="DFS") {
       console.log("Running DFS");
       this.runningAlgorithm = true;
       this.visualizeDFS();
-      this.runningAlgorithm=false;
+      this.runningAlgorithm = false;
     }
     else if(this.AlgorithmName==="A*") {
       console.log("Running A*");
-      this.runningAlgorithm=true;
+      this.runningAlgorithm = true;
       this.visualizeAStar();
-      this.runningAlgorithm=false;
+      this.runningAlgorithm = false;
     }
     else if(this.AlgorithmName==="Djikstra's") {
       console.log("Running Djikstra's");
@@ -246,9 +226,9 @@ class Main extends React.Component {
     }
     else if(this.AlgorithmName==="Greedy Best First Search") {
       console.log("Running Greedy Best first Search");
-      this.runningAlgorithm=true;
+      this.runningAlgorithm = true;
       this.visualizeGreedyBestFirst();
-      this.runningAlgorithm=false;
+      this.runningAlgorithm = false;
     }
     else {
       console.log("Algorithm to be selected.")
@@ -280,11 +260,13 @@ class Main extends React.Component {
     var path = [];
     var prev = new Map();
     prev[[this.start.Y,this.start.X]] = [-1,-1];
-    if(DFS(grid,visited,visitedNodesInOrder,prev,this.start.Y,this.start.X,this.end.Y,this.end.X,path)) {
+    const startnode = [this.start.Y,this.start.X];
+    const endnode = [this.end.Y,this.end.X]
+    if(DFS(grid,visited,visitedNodesInOrder,startnode,endnode,path)) {
       path.reverse();
       this.animate(visitedNodesInOrder,path);
+      this.pathLength=path.length;
     }
-
   }
   visualizeDjikstra = () =>{
      const grid = this.state.grid;
@@ -297,7 +279,7 @@ class Main extends React.Component {
     this.animate(visitednodesinorder, nodesinshortestpath);
 
   }
-  visualizeAStar = () => {
+  visualizeAStar = (set) => {
     const grid = this.state.grid;
     const startnode = [this.start.Y,this.start.X];
     const endnode = [this.end.Y,this.end.X];
@@ -307,7 +289,8 @@ class Main extends React.Component {
     path.shift();
     path.pop();
     visitedNodesInorder.shift();
-    this.animate(visitedNodesInorder,path);
+    this.animate(visitedNodesInorder,path,set);
+    this.pathLength=path.length;
   }
   visualizeGreedyBestFirst = () => {
     const grid = this.state.grid;
@@ -320,8 +303,12 @@ class Main extends React.Component {
     path.shift();
     path.pop();
     this.animate(visitedNodesInorder,path);
+    this.pathLength=path.length;
   }
   render() {
+    if(this.AlgorithmName!=="") {
+      this.title=this.AlgorithmName;
+    }
     return (
       <div>
         <NavBar
@@ -332,7 +319,7 @@ class Main extends React.Component {
           gridSize={this.gridSize}
           setAlgorithm={this.setAlgorithm}
         />
-        <h4 className="algo">{this.AlgorithmName}</h4>
+        <h4 className="algo">{this.title}</h4>
         <Grid
           grid={this.state.grid}
           rows={this.rows}
