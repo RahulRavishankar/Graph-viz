@@ -8,7 +8,7 @@ import getAllNeighbours from './getAllNeighbours';
 
 
 
-//const visitednodesinorder = [];
+
 function BFS(grid = [], startnode, finishnode) {
 
     const queue = [];
@@ -17,7 +17,7 @@ function BFS(grid = [], startnode, finishnode) {
     prev[startnode] = [-1,-1];
     let curr = startnode;
     queue.push(startnode);
-    //console.log(startnode);
+    
 
     while (queue.length > 0) {
         let curr = queue.shift();
@@ -30,10 +30,9 @@ function BFS(grid = [], startnode, finishnode) {
         for (const neighbour of neighbours) {
             
             grid[neighbour[0]][neighbour[1]] = 4;
-            //prev[[neighbour[0],neighbour[1]]] = c;
+           
             prev[neighbour] = curr;
-            //console.log(prev[neighbour]);
-            //shortestpathnodes.add(curr);
+            
             
             visitednodesinorder.push(neighbour);
             
@@ -43,7 +42,7 @@ function BFS(grid = [], startnode, finishnode) {
 
 
     }
-    console.log("this case");
+    
     return [visitednodesinorder, calculatePath(curr,prev)];
 
 

@@ -25,9 +25,9 @@ class Main extends React.Component {
     this.movingEnd = false;
     this.creatingWalls = false;
     this.runningAlgorithm = false;
-    this.AlgorithmName = "";
+    this.AlgorithmName = "Visualizer for Path Finding Algorithms";
     this.pathLength = -1;
-    this.title = "Visualizer for Path Finding Algorithms";
+    //this.title = "";
     
     this.createGrid = (rows, cols) => {
       var grid = new Array(rows);
@@ -136,8 +136,12 @@ class Main extends React.Component {
   }
   clear = () => {
     this.clearVisited();
+    this.AlgorithmName = "Visualizer for Path Finding Algorithms";
     this.setState({
-      grid: this.createGrid(this.rows,this.cols),
+      AlgorithmName: "Visualizer for Path Finding Algorithms",
+      grid: this.createGrid(this.rows,this.cols)
+      
+      
     })
   }
   clearVisited = () => {
@@ -158,6 +162,9 @@ class Main extends React.Component {
 
   setAlgorithm = (algorithmName) => {
     this.AlgorithmName = algorithmName;
+    this.setState({
+      AlgorithmName : algorithmName
+    })
     console.log("Algorithm set to "+this.AlgorithmName);
   }
   setFalse = () => {
@@ -240,6 +247,9 @@ class Main extends React.Component {
     var visitednodesinorder,nodesinshortestpath;
 
     [visitednodesinorder,nodesinshortestpath] = BFS(grid,startnode,finishnode);
+    document.getElementById(`${nodesinshortestpath[0][0]}_${nodesinshortestpath[0][1]}`).className = 'box start';
+    const n = nodesinshortestpath.length - 1;
+    document.getElementById(`${nodesinshortestpath[n][0]}_${nodesinshortestpath[n][1]}`).className = 'box end';
     nodesinshortestpath.shift();
     nodesinshortestpath.pop();
     this.animate(visitednodesinorder,nodesinshortestpath,this.setFalse);
@@ -304,9 +314,7 @@ class Main extends React.Component {
     this.pathLength=path.length;
   }
   render() {
-    if(this.AlgorithmName!=="") {
-      this.title=this.AlgorithmName;
-    }
+    
     return (
       <div>
         <NavBar
@@ -317,7 +325,7 @@ class Main extends React.Component {
           gridSize={this.gridSize}
           setAlgorithm={this.setAlgorithm}
         />
-        <h4 className="algo">{this.title}</h4>
+        <h4 className="algo">{this.AlgorithmName}</h4>
         <Grid
           grid={this.state.grid}
           rows={this.rows}
