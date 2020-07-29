@@ -179,6 +179,7 @@ class Main extends React.Component {
           this.animateShortestPath(nodesInShortestPathOrder);
         }, 10* i);
         setTimeout(() => { set(); },10*(visitedNodesInOrder.length+nodesInShortestPathOrder.length));
+        
         return;
       }
       setTimeout(() => {
@@ -197,6 +198,7 @@ class Main extends React.Component {
           'box path';
       }, 10* i);
     }
+    document.getElementById(`${this.end.Y}_${this.end.X}`).className = 'box end';
   }
 
   startButton = () => {
@@ -248,11 +250,14 @@ class Main extends React.Component {
 
     [visitednodesinorder,nodesinshortestpath] = BFS(grid,startnode,finishnode);
     document.getElementById(`${nodesinshortestpath[0][0]}_${nodesinshortestpath[0][1]}`).className = 'box start';
-    const n = nodesinshortestpath.length - 1;
-    document.getElementById(`${nodesinshortestpath[n][0]}_${nodesinshortestpath[n][1]}`).className = 'box end';
+    
+    
     nodesinshortestpath.shift();
     nodesinshortestpath.pop();
+    
     this.animate(visitednodesinorder,nodesinshortestpath,this.setFalse);
+    
+    
   }
   visualizeDFS = () => {
     var grid=this.state.grid;
