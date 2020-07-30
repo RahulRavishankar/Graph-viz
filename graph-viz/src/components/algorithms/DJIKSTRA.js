@@ -28,21 +28,25 @@ export default function DJIKSTRA(grid,startnode,finishnode)
         let minNode = pq.dequeue();
         currNode = minNode.element;
         let weight = minNode.priority;
-        console.log(currNode);
-        grid[currNode[0]][currNode[1]] = 4;
-        visitednodesinorder.push(currNode);
+        
 
-        if (currNode[0] === finishnode[0] && currNode[1] === finishnode[1]) {
-            
-            return [visitednodesinorder, calculatePath(finishnode,prev)];
-        }
+        
         const neighbours = getAllNeighbours(grid, currNode);
         for (const neighbour of neighbours) {
             if(weight + 1 < distance[neighbour])
             {
+                
+                
                 distance[neighbour] = weight + 1;
                 prev[neighbour] = currNode;
                 pq.enqueue(neighbour, distance[neighbour]);
+                grid[neighbour[0]][neighbour[1]] = 4;
+                visitednodesinorder.push(neighbour);
+                if (neighbour[0] === finishnode[0] && neighbour[1] === finishnode[1]) {
+
+                    return [visitednodesinorder, calculatePath(finishnode, prev)];
+                }
+                
             }
             
             

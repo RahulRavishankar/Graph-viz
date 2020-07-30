@@ -7,7 +7,7 @@ import DFS from './components/algorithms/DFS'
 import DJIKSTRA from './components/algorithms/DJIKSTRA'
 import AStar from './components/algorithms/AStar';
 import GreedyBestFirst from './components/algorithms/GreedyBestFirst';
-
+import bidirectionalSearch from './components/algorithms/BidirectionalSearch';
 
 class Main extends React.Component {
   constructor() {
@@ -234,7 +234,7 @@ class Main extends React.Component {
     else if(this.AlgorithmName==="Bidirectional Search") {
       console.log("Running Bidirectional Search");
       this.runningAlgorithm = true;
-      //this.visualizeBellmanFord();
+      this.visualizeBidirectionalSearch();
 
     }
     else if(this.AlgorithmName==="Greedy Best First Search") {
@@ -328,16 +328,16 @@ class Main extends React.Component {
     this.pathLength=path.length;
   }
   
-  /*visualizeBellmanFord = () => {
+  visualizeBidirectionalSearch = () => {
     const grid = this.state.grid;
     const startnode = [this.start.Y, this.start.X];
     const finishnode = [this.end.Y, this.end.X];
-    var visitednodesinorder, nodesinshortestpath;
+    const [source_visited, dest_visited,sPathNodes,dPathNodes] = bidirectionalSearch(grid, startnode,finishnode);
 
-    [visitednodesinorder, nodesinshortestpath] = BellmanFord(grid, startnode, finishnode);
-    this.animate(visitednodesinorder, nodesinshortestpath, this.setFalse);
+    this.animate(source_visited, sPathNodes,this.setFalse);
+    this.animate(dest_visited, dPathNodes,this.setFalse);
 
-  } */
+  }
   render() {
     
     return (

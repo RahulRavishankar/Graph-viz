@@ -6,6 +6,5 @@ export default function calculatePath(finishnode,prev)
         shortestpathnodes.unshift(curr);
         curr = prev[curr];
     }
-   //console.log(shortestpathnodes); 
    return shortestpathnodes;
 }

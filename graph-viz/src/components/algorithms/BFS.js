@@ -17,27 +17,21 @@ function BFS(grid = [], startnode, finishnode) {
     prev[startnode] = [-1,-1];
     let curr = startnode;
     queue.push(startnode);
-    
+    grid[startnode[0]][startnode[1]] = 4;
 
     while (queue.length > 0) {
         let curr = queue.shift();
-        if (finishnode[0] === curr[0] && finishnode[1] === curr[1]) {
-            
-            return [visitednodesinorder,calculatePath(finishnode,prev)];
-
-        }
+        
         const neighbours = getAllNeighbours(grid, curr);
         for (const neighbour of neighbours) {
-            
             grid[neighbour[0]][neighbour[1]] = 4;
-           
             prev[neighbour] = curr;
-            
-            
             visitednodesinorder.push(neighbour);
-            
             queue.push(neighbour);
-
+            if (neighbour[0] === finishnode[0] && neighbour[1] === finishnode[1]) {
+                return [visitednodesinorder, calculatePath(finishnode, prev)];
+            }
+            
         }
 
 
