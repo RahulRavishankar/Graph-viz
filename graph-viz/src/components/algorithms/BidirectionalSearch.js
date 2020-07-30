@@ -10,8 +10,8 @@ export default function bidirectionalSearch(grid = [], startnode, finishnode) {
     const svisited = [],
         dvisited = [];
 
-    const sprev = [];
-    const dprev = [];
+    const sprev = {};
+    const dprev = {};
     
     grid[startnode[0]][startnode[1]] = 4;
     sprev[startnode] = [-1,-1];
