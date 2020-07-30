@@ -67,6 +67,7 @@ export default function AStar(grid,startnode,endnode) {
 	
 	var open=new PriorityQueue();
 	open.enqueue(startnode,0);
+	
 
 	var dir=[[0,1],[0,-1],[1,0],[-1,0]];
 	var p,i,j,nextRow,nextCol;

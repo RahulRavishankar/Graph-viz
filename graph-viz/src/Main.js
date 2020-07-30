@@ -8,6 +8,7 @@ import DJIKSTRA from './components/algorithms/DJIKSTRA'
 import AStar from './components/algorithms/AStar';
 import GreedyBestFirst from './components/algorithms/GreedyBestFirst';
 
+
 class Main extends React.Component {
   constructor() {
     super();
@@ -171,7 +172,7 @@ class Main extends React.Component {
     console.log("Setting back to false");
     this.runningAlgorithm = false;
   }
-  animate(visitedNodesInOrder, nodesInShortestPathOrder,set) { //have to write -> need visited nodes in order and nodes in shortest path order
+  animate(visitedNodesInOrder, nodesInShortestPathOrder,set) {
     for (let i = 0; i <= visitedNodesInOrder.length; i++) {
       if (i === visitedNodesInOrder.length) {
         
@@ -198,6 +199,7 @@ class Main extends React.Component {
           'box path';
       }, 10* i);
     }
+    document.getElementById(`${this.start.Y}_${this.start.X}`).className = 'box start';
     document.getElementById(`${this.end.Y}_${this.end.X}`).className = 'box end';
   }
 
@@ -229,8 +231,11 @@ class Main extends React.Component {
       this.runningAlgorithm = true;
       this.visualizeDjikstra();
     }
-    else if(this.AlgorithmName==="Bellman Ford") {
-      console.log("Running Bellman Ford");
+    else if(this.AlgorithmName==="Bidirectional Search") {
+      console.log("Running Bidirectional Search");
+      this.runningAlgorithm = true;
+      //this.visualizeBellmanFord();
+
     }
     else if(this.AlgorithmName==="Greedy Best First Search") {
       console.log("Running Greedy Best first Search");
@@ -288,9 +293,13 @@ class Main extends React.Component {
      var visitednodesinorder, nodesinshortestpath;
     
     [visitednodesinorder, nodesinshortestpath] = DJIKSTRA(grid, startnode, finishnode);
-    console.log("ye");
-    this.animate(visitednodesinorder, nodesinshortestpath);
-
+    
+    nodesinshortestpath.shift();
+    nodesinshortestpath.pop();
+    
+    
+    this.animate(visitednodesinorder, nodesinshortestpath,this.setFalse);
+    
   }
   visualizeAStar = () => {
     const grid = this.state.grid;
@@ -318,6 +327,17 @@ class Main extends React.Component {
     this.animate(visitedNodesInorder,path,this.setFalse);
     this.pathLength=path.length;
   }
+  
+  /*visualizeBellmanFord = () => {
+    const grid = this.state.grid;
+    const startnode = [this.start.Y, this.start.X];
+    const finishnode = [this.end.Y, this.end.X];
+    var visitednodesinorder, nodesinshortestpath;
+
+    [visitednodesinorder, nodesinshortestpath] = BellmanFord(grid, startnode, finishnode);
+    this.animate(visitednodesinorder, nodesinshortestpath, this.setFalse);
+
+  } */
   render() {
     
     return (
