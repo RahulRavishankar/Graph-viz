@@ -69,5 +69,5 @@ A visualization tool for path finding algorithms.
 ## ✍️ Authors <a name = "authors"></a>
 
 - [@gaurikapoplai21](https://github.com/gaurikapoplai21) 
-- [@rahul]
+- [@rahul_5409](https://github.com/RahulRavishankar)
 
