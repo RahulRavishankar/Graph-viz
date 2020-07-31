@@ -334,11 +334,13 @@ class Main extends React.Component {
     const startnode = [this.start.Y, this.start.X];
     const finishnode = [this.end.Y, this.end.X];
     const [source_visited, dest_visited,sPathNodes,dPathNodes] = bidirectionalSearch(grid, startnode,finishnode);
+    source_visited.shift();
+    dest_visited.shift();
+    sPathNodes.shift();
+    dPathNodes.shift();
 
     this.animate(source_visited, sPathNodes,this.setFalse);
     this.animate(dest_visited, dPathNodes,this.setFalse);
-    sPathNodes.shift();
-    dPathNodes.shift();
     
 
   }
