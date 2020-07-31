@@ -201,6 +201,7 @@ class Main extends React.Component {
     }
     document.getElementById(`${this.start.Y}_${this.start.X}`).className = 'box start';
     document.getElementById(`${this.end.Y}_${this.end.X}`).className = 'box end';
+    
   }
 
   startButton = () => {
@@ -336,6 +337,9 @@ class Main extends React.Component {
 
     this.animate(source_visited, sPathNodes,this.setFalse);
     this.animate(dest_visited, dPathNodes,this.setFalse);
+    sPathNodes.shift();
+    dPathNodes.shift();
+    
 
   }
   render() {

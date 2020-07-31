@@ -29,7 +29,7 @@ export default function DJIKSTRA(grid,startnode,finishnode)
         currNode = minNode.element;
         let weight = minNode.priority;
         
-
+        
         
         const neighbours = getAllNeighbours(grid, currNode);
         for (const neighbour of neighbours) {
