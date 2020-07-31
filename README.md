@@ -42,18 +42,19 @@ A visualization tool for path finding algorithms.
 > User can use "clear" button to clear grid and reset the algorithm.
 
 
+
 ## 🏁 Getting Started <a name = "getting_started"></a>
 
-### Prerequisites
+   ### Prerequisites
 
-You should have NodeJS insalled on your localhost machine.
+   You should have NodeJS insalled on your localhost machine.
 
-### Running the Project
+   ### Running the Project
 
-- Open terminal. Navigate to project directory.
-- Enter the following command : **npm install**
-- Enter the following command : **npm start**
-- The visualizer will be opened on http://localhost:3000
+   - Open terminal. Navigate to project directory.
+   - Enter the following command : **npm install**
+   - Enter the following command : **npm start**
+   - The visualizer will be opened on http://localhost:3000
 
 
 ## ⛏️ Built Using <a name = "built_using"></a>
