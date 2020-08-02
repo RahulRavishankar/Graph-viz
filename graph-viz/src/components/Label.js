@@ -34,7 +34,7 @@ class Label extends Component {
 }
 
 const containerStyle = {
-	marginTop: "2.5%",
+	marginTop: "1.5%",
 	marginLeft: "20%",
 	marginRight: "5%",
 	display: "block"
