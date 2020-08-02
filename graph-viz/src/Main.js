@@ -139,10 +139,7 @@ class Main extends React.Component {
     this.clearVisited();
     this.AlgorithmName = "Visualizer for Path Finding Algorithms";
     this.setState({
-      AlgorithmName: "Visualizer for Path Finding Algorithms",
       grid: this.createGrid(this.rows,this.cols)
-      
-      
     })
   }
   clearVisited = () => {
