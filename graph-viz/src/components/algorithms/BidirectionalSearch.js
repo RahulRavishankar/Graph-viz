@@ -1,5 +1,5 @@
 import calculatePath from './CalculatePath';
-import getAllNeighbours from './getAllNeighbours';
+
 
 export default function bidirectionalSearch(grid,startnode,finishnode)
 {
@@ -33,12 +33,12 @@ export default function bidirectionalSearch(grid,startnode,finishnode)
     srcvisitedmap[startnode] = 2;
     dstvisitedmap[finishnode] = 2;
 
-    grid[startnode[0]][startnode[1]] = 4;
+    
     sprev[startnode] = [-1, -1];
     squeue.push(startnode);
     svisited.push(startnode);
 
-    grid[finishnode[0]][finishnode[1]] = 4;
+    
     dprev[finishnode] = [-1, -1];
     dqueue.push(finishnode);
     dvisited.push(finishnode);
@@ -55,26 +55,36 @@ export default function bidirectionalSearch(grid,startnode,finishnode)
         const dneighbours = getAllNeighbours(grid, currdest);
 
         for (const sneighbour of sneighbours) {
-            grid[sneighbour[0]][sneighbour[1]] = 4;
-            sprev[sneighbour] = currsrc;
-            svisited.push(sneighbour);
-            squeue.push(sneighbour);
-            srcvisitedmap[sneighbour] = 2;
+            if(srcvisitedmap[sneighbour] === 1)
+            {
+                
+                sprev[sneighbour] = currsrc;
+                svisited.push(sneighbour);
+                squeue.push(sneighbour);
+                srcvisitedmap[sneighbour] = 2;
+
+            }
+            
         }
         
         for (const dneighbour of dneighbours) {
-            grid[dneighbour[0]][dneighbour[1]] = 4;
-            dprev[dneighbour] = currdest;
-            dvisited.push(dneighbour);
-            dqueue.push(dneighbour);
-            dstvisitedmap[dneighbour] = 2;
+            if(dstvisitedmap[dneighbour] === 1)
+            {
+                dprev[dneighbour] = currdest;
+                dvisited.push(dneighbour);
+                dqueue.push(dneighbour);
+                dstvisitedmap[dneighbour] = 2;
+
+            }
+           
+           
         }
 
         intersectnode = isintersecting(srcvisitedmap,dstvisitedmap,grid);
-        console.log(intersectnode);
+       
         
         if(intersectnode[0] !== -1 && intersectnode[1] !== -1)
-        {
+        {   console.log(intersectnode);
             spathnodes = calculatePath(intersectnode,sprev);
             dpathnodes = calculatePath(intersectnode,dprev);
             return [svisited,dvisited,spathnodes,dpathnodes];
@@ -106,4 +116,26 @@ function isintersecting(srcvisitedmap,dstvisitedmap,grid)
         }
     }
     return [-1,-1];
+}
+
+function getAllNeighbours(grid = [], node) {
+    const ROWS = grid.length;
+    const COLS = grid[0].length;
+    const row = node[0];
+    const col = node[1];
+    const neighbours = [];
+    if ((row + 1 >= 0) && (row + 1 < ROWS) && (col >= 0) && (col < COLS) && grid[row + 1][col] !== 1) {
+        neighbours.push([row + 1, col]);
+    }
+    if ((row - 1) >= 0 && row - 1 < ROWS && col >= 0 && col < COLS && grid[row - 1][col] !== 1) {
+        neighbours.push([row - 1, col]);
+    }
+    if ((row) >= 0 && row < ROWS && col + 1 >= 0 && col + 1 < COLS && grid[row][col + 1] !== 1) {
+        neighbours.push([row, col + 1]);
+    }
+    if ((row) >= 0 && row < ROWS && col - 1 >= 0 && col - 1 < COLS && grid[row][col - 1] !== 1) {
+        neighbours.push([row, col - 1]);
+    }
+    return neighbours;
+
 }
