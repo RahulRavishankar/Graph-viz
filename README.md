@@ -17,7 +17,6 @@ A visualization tool for path finding algorithms.
 - [About](#about)
 - [Getting Started](#getting_started)
 - [Built Using](#built_using)
-- [Project Preview](#Project_Preview)
 - [Authors](#authors)
 - [Acknowledgments](#acknowledgement)
 
